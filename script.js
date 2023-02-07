@@ -2,6 +2,8 @@ let firstNumber = 0;
 let secondNumber;
 let digitClickCount = 0;
 let operatorClickCount = 0;
+let operation;
+
 const display = document.querySelector('#display');
 display.textContent = `${firstNumber}`;
 
@@ -38,15 +40,13 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
   }
 }))
 
-let operation;
-
 const operators = document.querySelectorAll('#operator');
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
   operatorClickCount++;
-  if (operatorClickCount > 1) {
+  if (operatorClickCount > 1 && secondNumber !== undefined) {
     operate();
     firstNumber = display.textContent;
-    // console.log(firstNumber);
+    secondNumber = undefined;
     digitClickCount = 0;
     operation = e.target.value;
   } else {
@@ -79,8 +79,6 @@ function divide(a, b) {
 }
 
 function operate() {
-  // operatorClickCount = 0;
-  let result; 
   switch(operation) {
     case 'add':
       add(firstNumber, secondNumber);
