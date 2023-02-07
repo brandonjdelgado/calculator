@@ -1,26 +1,39 @@
 let operation;
 let firstNumber = 0;
 let secondNumber;
-let clickCount = 0;
+let digitClickCount = 0;
+let operatorClickCount = 0;
 const display = document.querySelector('#display');
 display.textContent = `${firstNumber}`;
 
 const digits = document.querySelectorAll('#digit');
 digits.forEach((digit) => digit.addEventListener('click', (e) => {
-  clickCount += 1;
-  if (clickCount === 1) {
-    firstNumber = e.target.value;
-    console.log(firstNumber);
-    display.textContent = `${firstNumber}`;
-  } else if (clickCount === 2) {
-    secondNumber = e.target.value;
-    console.log(secondNumber);
-    display.textContent = `${secondNumber}`;
+  digitClickCount++;
+  if (operatorClickCount === 0) {
+    if (digitClickCount === 1) {
+      firstNumber = e.target.value;
+      display.textContent = firstNumber;
+    }
+    else if (digitClickCount > 1) {
+      firstNumber = firstNumber.toString() + e.target.value;
+      display.textContent = firstNumber;
+    }
+  } else if (operatorClickCount === 1) {
+    if (digitClickCount === 1) {
+      secondNumber = e.target.value;
+      display.textContent = secondNumber;
+    }
+    else if (digitClickCount > 1) {
+      secondNumber = secondNumber.toString() + e.target.value;
+      display.textContent = secondNumber;
+    }
   }
 }))
 
 const operators = document.querySelectorAll('#operator');
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
+  operatorClickCount++;
+  digitClickCount = 0;
   operation = e.target.value;
   console.log(operation);
 }))
@@ -45,9 +58,10 @@ function divide(a, b) {
 }
 
 function operate() {
+  operatorClickCount = 0;
   switch(operation) {
     case 'add':
-      (add(firstNumber, secondNumber));
+      console.log(add(firstNumber, secondNumber));
       break;
     case 'subtract':
       subtract(firstNumber, secondNumber);
