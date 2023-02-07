@@ -1,4 +1,3 @@
-let operation;
 let firstNumber = 0;
 let secondNumber;
 let digitClickCount = 0;
@@ -27,41 +26,64 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
       secondNumber = secondNumber.toString() + e.target.value;
       display.textContent = secondNumber;
     }
+  } else if (operatorClickCount > 1) {
+    if (digitClickCount === 1) {
+      secondNumber = e.target.value;
+      display.textContent = secondNumber;
+    }
+    else if (digitClickCount > 1) {
+      secondNumber = secondNumber.toString() + e.target.value;
+      display.textContent = secondNumber;
+    }
   }
 }))
+
+let operation;
 
 const operators = document.querySelectorAll('#operator');
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
   operatorClickCount++;
-  digitClickCount = 0;
-  operation = e.target.value;
-  console.log(operation);
+  if (operatorClickCount > 1) {
+    operate();
+    firstNumber = display.textContent;
+    // console.log(firstNumber);
+    digitClickCount = 0;
+    operation = e.target.value;
+  } else {
+    digitClickCount = 0;
+    operation = e.target.value;
+  }
 }))
 
 const equal = document.querySelector('#equal');
 equal.addEventListener('click', operate);
 
 function add(a, b) {
-  return +a + +b;
+  const result = +a + +b;
+  display.textContent = result;
 }
 
 function subtract(a, b) {
-  return +a - +b;
+  const result = +a - +b;
+  display.textContent = result;
 }
 
 function multiply(a, b) {
-  return +a * +b;
+  const result = +a * +b;
+  display.textContent = result;
 }
 
 function divide(a, b) {
-  return +a / +b;
+  const result = +a / +b;
+  display.textContent = result;
 }
 
 function operate() {
-  operatorClickCount = 0;
+  // operatorClickCount = 0;
+  let result; 
   switch(operation) {
     case 'add':
-      console.log(add(firstNumber, secondNumber));
+      add(firstNumber, secondNumber);
       break;
     case 'subtract':
       subtract(firstNumber, secondNumber);
@@ -74,3 +96,13 @@ function operate() {
       break;
   }
 }
+
+const clear = document.querySelector('#clear');
+clear.addEventListener('click', () => {
+  firstNumber = 0;
+  digitClickCount = 0;
+  operatorClickCount = 0;
+  operation = null;
+  secondNumber = null;
+  display.textContent = firstNumber;
+})
