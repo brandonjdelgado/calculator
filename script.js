@@ -1,8 +1,10 @@
 let firstNumber = 0;
-let secondNumber;
+let secondNumber = null;
 let digitClickCount = 0;
 let operatorClickCount = 0;
-let operation;
+let decimalClickCount = 0;
+// let equalClickCount = 0;
+let operation = null;
 
 const display = document.querySelector('#display');
 display.textContent = `${firstNumber}`;
@@ -12,36 +14,68 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
   digitClickCount++;
   if (operatorClickCount === 0) {
     if (digitClickCount === 1) {
-      firstNumber = e.target.value;
+      if (decimalClickCount === 0) {
+        firstNumber = e.target.value;
+        display.textContent = firstNumber;
+        console.log(`first: ${firstNumber}`);
+      } else if (decimalClickCount === 1) {
+        firstNumber = display.textContent + e.target.value;
+        display.textContent = firstNumber;
+        console.log(`first: ${firstNumber}`);
+      }
+    } else if (digitClickCount > 1) {
+      firstNumber = firstNumber + e.target.value;
       display.textContent = firstNumber;
-    }
-    else if (digitClickCount > 1) {
-      firstNumber = firstNumber.toString() + e.target.value;
-      display.textContent = firstNumber;
+      console.log(`first: ${firstNumber}`);
     }
   } else if (operatorClickCount >= 1) {
     if (digitClickCount === 1) {
-      secondNumber = e.target.value;
+      if (decimalClickCount === 0) {
+        secondNumber = e.target.value;
+        display.textContent = secondNumber;
+        console.log(`second: ${secondNumber}`);
+      } else if (decimalClickCount === 1) {
+        secondNumber = display.textContent + e.target.value;
+        display.textContent = secondNumber;
+        console.log(`second: ${secondNumber}`);
+      }
+    } else if (digitClickCount > 1) {
+      secondNumber = secondNumber + e.target.value;
       display.textContent = secondNumber;
-    }
-    else if (digitClickCount > 1) {
-      secondNumber = secondNumber.toString() + e.target.value;
-      display.textContent = secondNumber;
+      console.log(`second: ${secondNumber}`);
     }
   }
 }))
 
 const decimal = document.querySelector('#decimal');
 decimal.addEventListener('click', (e) => {
+  decimalClickCount++;
   if (operatorClickCount === 0) {
-    firstNumber += e.target.value;
-    display.textContent = firstNumber;
+    if (digitClickCount === 0) {
+      firstNumber = 0;
+      firstNumber += e.target.value;
+      display.textContent = firstNumber;
+    } else {
+      firstNumber += e.target.value;
+      display.textContent = firstNumber;
+    }
   } else if (operatorClickCount >= 1) {
-    secondNumber += e.target.value;
-    display.textContent = secondNumber;
+    if (digitClickCount === 0) {
+      secondNumber = 0;
+      secondNumber += e.target.value;
+      display.textContent = secondNumber;
+    } else {
+      secondNumber += e.target.value;
+      display.textContent = secondNumber;
+    }
   }
   decimal.disabled = true;
 })
+
+// const signs = document.querySelector('#signs');
+// signs.addEventListener('click', () => {
+
+// })
 
 const operators = document.querySelectorAll('#operator');
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
@@ -52,19 +86,63 @@ operators.forEach((operator) => operator.addEventListener('click', (e) => {
     firstNumber = display.textContent;
     secondNumber = null;
     digitClickCount = 0;
+    decimalClickCount = 0;
     operation = e.target.value;
+    console.log(operation);
     console.log(`First: ${firstNumber}`);
     console.log(`Second: ${secondNumber}`);
   } else {
+    console.log('less than 1 or equal to 1');
+    firstNumber = display.textContent;
     digitClickCount = 0;
+    decimalClickCount = 0;
     operation = e.target.value;
+    console.log(operation);
     console.log(`First: ${firstNumber}`);
     console.log(`Second: ${secondNumber}`);
   }
 }))
 
 const equal = document.querySelector('#equal');
-equal.addEventListener('click', operate);
+equal.addEventListener('click', () => {
+  operate();
+  digitClickCount = 0;
+  decimalClickCount = 0;
+  operatorClickCount = 0;
+  secondNumber = null;
+  decimal.disabled = false;
+  console.log(`First: ${firstNumber}`);
+  console.log(`Second: ${secondNumber}`);
+});
+
+function operate() {
+  switch(operation) {
+    case 'add':
+      add(firstNumber, secondNumber);
+      break;
+    case 'subtract':
+      subtract(firstNumber, secondNumber);
+      break;
+    case 'multiply':
+      multiply(firstNumber, secondNumber);
+      break;
+    case 'divide':
+      divide(firstNumber, secondNumber);
+      break;
+  }
+}
+
+const clear = document.querySelector('#clear');
+clear.addEventListener('click', () => {
+  firstNumber = 0;
+  digitClickCount = 0;
+  operatorClickCount = 0;
+  decimalClickCount = 0;
+  operation = null;
+  secondNumber = null;
+  display.textContent = firstNumber;
+  decimal.disabled = false;
+})
 
 function add(a, b) {
   if (a === 'Error' || b === 'Error') {
@@ -117,31 +195,3 @@ function divide(a, b) {
     }
   }
 }
-
-function operate() {
-  switch(operation) {
-    case 'add':
-      add(firstNumber, secondNumber);
-      break;
-    case 'subtract':
-      subtract(firstNumber, secondNumber);
-      break;
-    case 'multiply':
-      multiply(firstNumber, secondNumber);
-      break;
-    case 'divide':
-      divide(firstNumber, secondNumber);
-      break;
-  }
-}
-
-const clear = document.querySelector('#clear');
-clear.addEventListener('click', () => {
-  firstNumber = 0;
-  digitClickCount = 0;
-  operatorClickCount = 0;
-  operation = null;
-  secondNumber = null;
-  display.textContent = firstNumber;
-  decimal.disabled = false;
-})
