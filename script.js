@@ -54,10 +54,16 @@ decimal.addEventListener('click', (e) => {
   console.log(`decimal decimal: ${decimalClickCount}`)
   if (operatorClickCount === 0) {
     if (digitClickCount === 0) {
-      firstNumber = 0;
-      firstNumber += e.target.value;
-      console.log(`first number: ${firstNumber}`);
-      display.textContent = firstNumber;
+      if (firstNumber !== 0) {
+        firstNumber += e.target.value;
+        display.textContent = firstNumber;
+        console.log(`first number: ${firstNumber}`);
+      } else {
+        firstNumber = 0;
+        firstNumber += e.target.value;
+        console.log(`first number: ${firstNumber}`);
+        display.textContent = firstNumber;
+      }
     } else {
       firstNumber += e.target.value;
       display.textContent = firstNumber;
@@ -94,15 +100,24 @@ signs.addEventListener('click', () => {
 const percentage = document.querySelector('#percentage');
 percentage.addEventListener('click', () => {
   if (operatorClickCount === 0) {
-    firstNumber /= 100;
-    console.log(`first number: ${firstNumber}`);
-    display.textContent = firstNumber;
+    if (firstNumber !== 0) {
+      firstNumber /= 100;
+      console.log(`first number: ${firstNumber}`);
+      display.textContent = firstNumber;
+      decimal.disabled = true;
+    } if (firstNumber === 0){
+      decimal.disabled = false;
+    }
   } else if (operatorClickCount >= 1) {
-    secondNumber /= 100;
-    console.log(`second number: ${secondNumber}`);
-    display.textContent = secondNumber;
+    if (secondNumber !== 0) {
+      secondNumber /= 100;
+      console.log(`second number: ${secondNumber}`);
+      display.textContent = secondNumber;
+      decimal.disabled = true;
+    } if (secondNumber === 0){
+      decimal.disabled = false;
+    }
   }
-  decimal.disabled = true;
 }) 
 
 const operators = document.querySelectorAll('#operator');
@@ -147,7 +162,10 @@ equal.addEventListener('click', () => {
   firstNumber = display.textContent;
   operation = null;
   console.log(`first number: ${firstNumber}`);
-  decimal.disabled = false;
+  const isDecimal = display.textContent.includes('.');
+  if (!(isDecimal)) {
+    decimal.disabled = false;
+  }
   console.log(`First: ${firstNumber}`);
   console.log(`Second: ${secondNumber}`);
 });
