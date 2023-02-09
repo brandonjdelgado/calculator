@@ -12,6 +12,7 @@ display.textContent = `${firstNumber}`;
 const digits = document.querySelectorAll('#digit');
 digits.forEach((digit) => digit.addEventListener('click', (e) => {
   digitClickCount++;
+  console.log(`digits digit: ${digitClickCount}`)
   if (operatorClickCount === 0) {
     if (digitClickCount === 1) {
       if (decimalClickCount === 0) {
@@ -50,38 +51,66 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
 const decimal = document.querySelector('#decimal');
 decimal.addEventListener('click', (e) => {
   decimalClickCount++;
+  console.log(`decimal decimal: ${decimalClickCount}`)
   if (operatorClickCount === 0) {
     if (digitClickCount === 0) {
       firstNumber = 0;
       firstNumber += e.target.value;
+      console.log(`first number: ${firstNumber}`);
       display.textContent = firstNumber;
     } else {
       firstNumber += e.target.value;
       display.textContent = firstNumber;
+      console.log(`first number: ${firstNumber}`);
     }
   } else if (operatorClickCount >= 1) {
     if (digitClickCount === 0) {
       secondNumber = 0;
       secondNumber += e.target.value;
+      console.log(`second number: ${secondNumber}`);
       display.textContent = secondNumber;
     } else {
       secondNumber += e.target.value;
       display.textContent = secondNumber;
+      console.log(`second number: ${secondNumber}`);
     }
   }
   decimal.disabled = true;
 })
 
-// const signs = document.querySelector('#signs');
-// signs.addEventListener('click', () => {
+const signs = document.querySelector('#signs');
+signs.addEventListener('click', () => {
+  if (operatorClickCount === 0) {
+    firstNumber *= -1;
+    console.log(`first number: ${firstNumber}`);
+    display.textContent = firstNumber;
+  } else if (operatorClickCount >= 1) {
+    secondNumber *= -1;
+    console.log(`second number: ${secondNumber}`);
+    display.textContent = secondNumber;
+  }
+})
 
-// })
+const percentage = document.querySelector('#percentage');
+percentage.addEventListener('click', () => {
+  if (operatorClickCount === 0) {
+    firstNumber /= 100;
+    console.log(`first number: ${firstNumber}`);
+    display.textContent = firstNumber;
+  } else if (operatorClickCount >= 1) {
+    secondNumber /= 100;
+    console.log(`second number: ${secondNumber}`);
+    display.textContent = secondNumber;
+  }
+  decimal.disabled = true;
+}) 
 
 const operators = document.querySelectorAll('#operator');
 operators.forEach((operator) => operator.addEventListener('click', (e) => {
   operatorClickCount++;
+  console.log(`operators operator: ${operatorClickCount}`)
   decimal.disabled = false;
-  if (operatorClickCount > 1 && secondNumber !== null) {
+  if (operatorClickCount > 1 && secondNumber !== null && operation !== null) {
     operate();
     firstNumber = display.textContent;
     secondNumber = null;
@@ -95,7 +124,9 @@ operators.forEach((operator) => operator.addEventListener('click', (e) => {
     console.log('less than 1 or equal to 1');
     firstNumber = display.textContent;
     digitClickCount = 0;
+    console.log(`operators digit: ${digitClickCount}`);
     decimalClickCount = 0;
+    console.log(`operators decimal: ${decimalClickCount}`);
     operation = e.target.value;
     console.log(operation);
     console.log(`First: ${firstNumber}`);
@@ -107,9 +138,15 @@ const equal = document.querySelector('#equal');
 equal.addEventListener('click', () => {
   operate();
   digitClickCount = 0;
+  console.log(`equal digit: ${digitClickCount}`);
   decimalClickCount = 0;
+  console.log(`equal decimal: ${decimalClickCount}`);
   operatorClickCount = 0;
+  console.log(`equal operator: ${operatorClickCount}`);
   secondNumber = null;
+  firstNumber = display.textContent;
+  operation = null;
+  console.log(`first number: ${firstNumber}`);
   decimal.disabled = false;
   console.log(`First: ${firstNumber}`);
   console.log(`Second: ${secondNumber}`);
@@ -136,8 +173,11 @@ const clear = document.querySelector('#clear');
 clear.addEventListener('click', () => {
   firstNumber = 0;
   digitClickCount = 0;
+  console.log(`equal digit: ${digitClickCount}`);
   operatorClickCount = 0;
+  console.log(`equal operator: ${operatorClickCount}`);
   decimalClickCount = 0;
+  console.log(`equal decimal: ${decimalClickCount}`);
   operation = null;
   secondNumber = null;
   display.textContent = firstNumber;
