@@ -20,9 +20,15 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
         display.textContent = firstNumber;
         console.log(`first: ${firstNumber}`);
       } else if (decimalClickCount === 1) {
-        firstNumber = display.textContent + e.target.value;
-        display.textContent = firstNumber;
-        console.log(`first: ${firstNumber}`);
+        if (firstNumber === 0) {
+          firstNumber = e.target.value;
+          display.textContent = firstNumber;
+          console.log(`first: ${firstNumber}`);
+        } else {
+          firstNumber = display.textContent + e.target.value;
+          display.textContent = firstNumber;
+          console.log(`first: ${firstNumber}`);
+        }
       }
     } else if (digitClickCount > 1) {
       firstNumber = firstNumber + e.target.value;
@@ -36,9 +42,15 @@ digits.forEach((digit) => digit.addEventListener('click', (e) => {
         display.textContent = secondNumber;
         console.log(`second: ${secondNumber}`);
       } else if (decimalClickCount === 1) {
-        secondNumber = display.textContent + e.target.value;
-        display.textContent = secondNumber;
-        console.log(`second: ${secondNumber}`);
+        if (secondNumber === 0) {
+          secondNumber = e.target.value;
+          display.textContent = secondNumber;
+          console.log(`second: ${secondNumber}`);
+        } else {
+          secondNumber = display.textContent + e.target.value;
+          display.textContent = secondNumber;
+          console.log(`second: ${secondNumber}`);
+        }
       }
     } else if (digitClickCount > 1) {
       secondNumber = secondNumber + e.target.value;
@@ -162,10 +174,15 @@ equal.addEventListener('click', () => {
   firstNumber = display.textContent;
   operation = null;
   console.log(`first number: ${firstNumber}`);
-  const isDecimal = display.textContent.includes('.');
-  if (!(isDecimal)) {
+  const isDecimal = firstNumber.includes('.');
+  console.log(`${isDecimal} contains '.' in '${firstNumber}'`)
+  if (isDecimal) {
+    console.log(true);
+    decimal.disabled = true;
+  } else {
     decimal.disabled = false;
   }
+  // maybe wrong cuz no else statement
   console.log(`First: ${firstNumber}`);
   console.log(`Second: ${secondNumber}`);
 });
