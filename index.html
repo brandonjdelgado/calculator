@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <h1>iPhone Calculator</h1>
+
+    <div class="container">
+      <div id="display" class="display"></div>
+
+      <div class="row">
+        <div>
+          <div class="row">
+            <button id="clear" class="light-accent">AC</button>
+            <button id="signs" class="light-accent">+/-</button>
+            <button id="percentage" class="light-accent">&percnt;</button>
+          </div>
+          <div class="row">
+            <button id="digit" value="7" class="dark-accent">7</button>
+            <button id="digit" value="8" class="dark-accent">8</button>
+            <button id="digit" value="9" class="dark-accent">9</button>
+          </div>
+          <div class="row">
+            <button id="digit" value="4" class="dark-accent">4</button>
+            <button id="digit" value="5" class="dark-accent">5</button>
+            <button id="digit" value="6" class="dark-accent">6</button>
+          </div>
+          <div class="row">
+            <button id="digit" value="1" class="dark-accent">1</button>
+            <button id="digit" value="2" class="dark-accent">2</button>
+            <button id="digit" value="3" class="dark-accent">3</button>
+          </div>
+          <div class="row">
+            <button id="digit" value="0" class="dark-accent zero">0</button>
+            <button id="decimal" value="." class="dark-accent">.</button>
+          </div>
+        </div>
+        <div class="column">
+          <button id="operator" value="divide" class="operator">
+            &divide;
+          </button>
+          <button id="operator" value="multiply" class="operator">
+            &times;
+          </button>
+          <button id="operator" value="subtract" class="operator">
+            &minus;
+          </button>
+          <button id="operator" value="add" class="operator">&plus;</button>
+          <button id="equal" class="operator">&equals;</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

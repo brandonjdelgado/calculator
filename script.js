@@ -3,7 +3,6 @@ let secondNumber = null;
 let digitClickCount = 0;
 let operatorClickCount = 0;
 let decimalClickCount = 0;
-// let equalClickCount = 0;
 let operation = null;
 
 const display = document.querySelector('#display');
@@ -12,6 +11,8 @@ display.textContent = `${firstNumber}`;
 const digits = document.querySelectorAll('#digit');
 digits.forEach((digit) => digit.addEventListener('click', (e) => {
   digitClickCount++;
+  clear.textContent = 'C';
+  operators.forEach((operator) => operator.classList.remove('active'));
   console.log(`digits digit: ${digitClickCount}`)
   if (operatorClickCount === 0) {
     if (digitClickCount === 1) {
@@ -137,6 +138,10 @@ operators.forEach((operator) => operator.addEventListener('click', (e) => {
   operatorClickCount++;
   console.log(`operators operator: ${operatorClickCount}`)
   decimal.disabled = false;
+  operators.forEach((operator) => {
+    operator.classList.remove('active');
+    e.target.classList.add('active');
+  })
   if (operatorClickCount > 1 && secondNumber !== null && operation !== null) {
     operate();
     firstNumber = display.textContent;
@@ -147,6 +152,7 @@ operators.forEach((operator) => operator.addEventListener('click', (e) => {
     console.log(operation);
     console.log(`First: ${firstNumber}`);
     console.log(`Second: ${secondNumber}`);
+    operator.classList.remove('active');
   } else {
     console.log('less than 1 or equal to 1');
     firstNumber = display.textContent;
@@ -182,7 +188,6 @@ equal.addEventListener('click', () => {
   } else {
     decimal.disabled = false;
   }
-  // maybe wrong cuz no else statement
   console.log(`First: ${firstNumber}`);
   console.log(`Second: ${secondNumber}`);
 });
@@ -217,6 +222,7 @@ clear.addEventListener('click', () => {
   secondNumber = null;
   display.textContent = firstNumber;
   decimal.disabled = false;
+  clear.textContent = 'AC';
 })
 
 function add(a, b) {
